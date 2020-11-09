@@ -1,0 +1,52 @@
+uk2010immigCorpus <-
+corpus(data_char_ukimmig2010,
+docvars = data.frame(party = names(data_char_ukimmig2010)),
+metacorpus = list(notes = "Immigration-related sections of 2010 UK party manifestos"))
+library(quanteda)
+install.packages("quanteda")
+library(quanteda)
+# create a corpus from the immigration texts from UK party platforms
+uk2010immigCorpus <-
+corpus(data_char_ukimmig2010,
+docvars = data.frame(party = names(data_char_ukimmig2010)),
+metacorpus = list(notes = "Immigration-related sections of 2010 UK party manifestos"))
+install.packages("readtext")
+install.packages("C:/Users/raphael/Downloads/readtext_0.50.zip", repos = NULL, type = "win.binary")
+library(readtext)
+speeches <- readtext("./Data/speeches.csv", cache = FALSE)
+speeches <- readtext("./Data/speeches.csv")
+View(speeches)
+View(speeches)
+speechCorpus <- corpus(speeches)
+?corpus
+speechCorpus <- corpus(speeches$speechbody)
+speechCorpus
+summary(speechCorpus)
+kwic(speechCorpus, "America", 3)
+mydfm <- dfm(speechCorpus, remove = stopwords("english"), remove_punct = TRUE)
+mydfm <- dfm(speechCorpus, remove = stopwords("english"), remove_punct = TRUE)
+?dfm
+mydfm <- dfm(speechCorpus, remove = stopwords("english"), removePunct = TRUE)
+mydfm <- dfm(speechCorpus, removePunct = TRUE)
+mydfm
+summary(mydfm)
+topfeatures(mydfm, 20)
+mydfm <- dfm(speechCorpus, language = "English", removePunct = TRUE)
+topfeatures(mydfm, 20)  # 20 top words
+mydfm <- dfm(speechCorpus, language = "English", removePunct = TRUE, ignoredFeatures = stopwords(kind = "english", verbose = FALSE))
+topfeatures(mydfm, 20)  # 20 top words
+topfeatures(mydfm, 50)  # 20 top words
+set.seed(100)
+textplot_wordcloud(mydfm, min.freq = 6, random.order = FALSE,
+rot.per = .25,
+colors = RColorBrewer::brewer.pal(8,"Dark2"))
+head(stopwords("arabic"), 10)
+head(stopwords("russian"), 10)
+head(stopwords("chinese"), 10)
+textplot_wordcloud(mydfm, min.freq = 6, random.order = FALSE,
+head(stopwords("arabic"), 10)
+head(stopwords("russian"), 10)
+head(stopwords("dutch"), 10)
+head(stopwords("french"), 10)
+head(stopwords("english"), 10)
+?quanteda

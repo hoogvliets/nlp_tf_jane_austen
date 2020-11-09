@@ -1,0 +1,97 @@
+## quanteda version 0.99
+## Using 4 of 8 threads for parallel computing
+## 
+## Attaching package: 'quanteda'
+## The following object is masked from 'package:utils':
+## 
+##     View
+
+#Loading packages
+
+```{r}
+library(quanteda)
+library(readtext)
+```
+
+#Loading data
+
+```{r}
+speeches <- readtext("./Data/speeches.csv")
+
+speechCorpus <- corpus(speeches$speechbody)
+
+summary(speechCorpus)
+
+# create a corpus from the immigration texts from UK party platforms
+uk2010immigCorpus <- 
+    corpus(data_char_ukimmig2010,
+           docvars = data.frame(party = names(data_char_ukimmig2010)),
+           metacorpus = list(notes = "Immigration-related sections of 2010 UK party manifestos"))
+uk2010immigCorpus
+## Corpus consisting of 9 documents and 1 docvar.
+summary(uk2010immigCorpus)
+## Corpus consisting of 9 documents.
+## 
+##          Text Types Tokens Sentences        party
+##           BNP  1125   3280        88          BNP
+##     Coalition   142    260         4    Coalition
+##  Conservative   251    499        15 Conservative
+##        Greens   322    679        21       Greens
+##        Labour   298    683        29       Labour
+##        LibDem   251    483        14       LibDem
+##            PC    77    114         5           PC
+##           SNP    88    134         4          SNP
+##          UKIP   346    723        27         UKIP
+## 
+## Source:  /Users/kbenoit/Dropbox (Personal)/GitHub/quanteda/docs/* on x86_64 by kbenoit
+## Created: Wed Aug 16 12:47:07 2017
+## Notes:   Immigration-related sections of 2010 UK party manifestos
+```
+
+#Defining key words
+
+```{r}
+# key words in context for "deport", 3 words of context
+kwic(speechCorpus, "America", 3)
+##                                                                     
+##   [BNP, 157]        The BNP will | deport | all foreigners convicted
+##  [BNP, 1946]                . 2. | Deport | all illegal immigrants  
+##  [BNP, 1952] immigrants We shall | deport | all illegal immigrants  
+##  [BNP, 2585]  Criminals We shall | deport | all criminal entrants
+
+# create a dfm, removing stopwords
+mydfm <- dfm(speechCorpus, language = "English", removePunct = TRUE, ignoredFeatures = stopwords(kind = "english", verbose = FALSE))
+
+
+## Document-feature matrix of: 9 documents, 1,547 features (83.8% sparse).
+```
+
+#Top features
+
+```{r}
+
+topfeatures(mydfm, 50)  # 20 top words
+## immigration     british      people      asylum     britain          uk 
+##          66          37          35          29          28          27 
+##      system  population     country         new  immigrants      ensure 
+##          27          21          20          19          17          17 
+##       shall citizenship      social    national         bnp     illegal 
+##          17          16          14          14          13          13 
+##        work     percent 
+##          13          12
+```
+
+
+# Plot wordcloud
+
+```{r}
+
+# plot a word cloud
+set.seed(100)
+textplot_wordcloud(mydfm, min.freq = 6, random.order = FALSE,
+                   rot.per = .25, 
+                   colors = RColorBrewer::brewer.pal(8,"Dark2"))
+
+textplot
+
+```
